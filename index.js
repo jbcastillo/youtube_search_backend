@@ -8,7 +8,7 @@ const app = express();
 // cors
 const cors = require('cors');
 var corsOptions = {
-    origin: 'http://localhost:8080', // Reemplazar con dominio
+    origin: 'https://youtube-search-jc.herokuapp.com', // Reemplazar con dominio
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 app.use(cors(corsOptions));
@@ -24,13 +24,9 @@ const youtubeRoutes = require('./routes/youtube');
 
 // route middlewares
 app.use('/api/youtube', youtubeRoutes);
-
-app.get('/', (req, res) => {
-    res.json({
-        estado: true,
-        mensaje: 'funciona!'
-    })
-});
+const history = require('connect-history-api-fallback');
+app.use(history());
+app.use(express.static(__dirname + "/public"));
 
 // iniciar server
 const PORT = process.env.PORT || 3001;
